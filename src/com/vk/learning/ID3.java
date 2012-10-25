@@ -23,7 +23,7 @@ public class ID3 extends DTree {
 
 		createTree(this.trainingSet, this.rootNode);
 		
-		
+		return false;
 		
 		
 	}
@@ -33,7 +33,7 @@ public class ID3 extends DTree {
 		// Find the best attribute
 		// Calculation information gain for each
 		// Attribute value
-		Map cCounter = calcClassFreqMap(trSet);
+		Map<String, Integer> cCounter = calcClassFreqMap(trSet);
 		Double entropy = calcEntropy(cCounter, trSet.size());
 		String bestAttr = getBestAttribute(trSet, entropy);
 		
@@ -42,69 +42,77 @@ public class ID3 extends DTree {
 	
 	private String getBestAttribute(List<Incident> trSet, Double entropy) {
 		
-		Map <String, AttrSliceTable> sliceTable = new HashMap();
+		Map <String, AttrSliceTable> sliceTable = new HashMap<String, AttrSliceTable>();
 		
-		Iterator<Incident> it = trSet.iterator();
-		Incident inc = null;
-		Iterator <String> intit = null;
-		String attr;
 		AttrSliceTable recordT;
 		Pair pair;
 		
 		// Unique Attributes in the training set
-		while(it.hasNext()){
-			inc = it.next();
-			intit = inc.getData().keySet().iterator();
-			while(intit.hasNext()){
-				attr = intit.next();
-				recordT = sliceTable.get(attr);
-				if(recordT==null){					
+		for(Incident inc: trSet){			
+			for (String attr: inc.getData().keySet()){
+				
+				
+				
+				if(sliceTable.containsKey(attr)){
+					recordT = sliceTable.get(attr);
+				} else {					
 					recordT = new AttrSliceTable();
 					recordT.setAttrName(attr);
-					pair = new Pair(inc.getData().get(attr).toString(), inc.getcName());
-					
-					recordT.getValToClassTable().add(pair);
-					sliceTable.put(attr, recordT);
 				}
+				
+				pair = new Pair(inc.getData().get(attr).toString(), inc.getcName());					
+				recordT.getValToClassTable().add(pair);
+				sliceTable.put(attr, recordT);
+				
 			}
 		}
 		Iterator<String> attrIter = sliceTable.keySet().iterator();
 		
-		while(attrIter.hasNext()){
-			recordT = sliceTable.get(attrIter.next());
-			
-			
+		for(String attr: sliceTable.keySet()){
+			recordT = sliceTable.get(attr);
 		}
 		
 		
 		
 		
 		
-		return attrs;
+		return "test";
 		
 	}
 
-	private Map calcClassFreqMap(List trSet){
-		Iterator<Incident> it = trSet.iterator();
-		HashMap<String, Integer> cCounter = new HashMap<String, Integer>();
-		Incident in = null;
-		while(it.hasNext()){			
-			in = it.next();
+	/**
+	 * calcClassFreqMap
+	 * @param trSet
+	 * @return
+	 * 
+	 * a,a,a,b,c,d -> a:3, b:1, c:1, d:1
+	 * 
+	 * 
+	 */
+	private Map<String, Integer> calcClassFreqMap(List<Incident> trSet){
+
+		Map<String, Integer> cCounter = new HashMap<String, Integer>();
+		
+		for(Incident in: trSet){									
 			if(!cCounter.containsKey(in.getcName())){
 				cCounter.put(in.getcName(), 1);				
 			} else {				
 				cCounter.put(in.getcName(), 1+(int)cCounter.get(in.getcName()));
-			}						
+			}			
 		}
 		return cCounter;
-		
 	}
 
-	private double calcEntropy(Map cCounter, int num){
+	/**
+	 * Entropy calculation
+	 * @param cCounter
+	 * @param num
+	 * @return
+	 */
+	private double calcEntropy(Map<String, Integer> cCounter, int num){
 		double entropy = 0;
-		Iterator<Integer> it = cCounter.values().iterator();
-		while(it.hasNext()){
-			double probability = (double)it.next()/num;
+		for(Integer val: cCounter.values()){
+			double probability = (double)val/num;
 			entropy -= probability * log2(probability);
 		}
 		return entropy;
@@ -112,8 +120,9 @@ public class ID3 extends DTree {
 	
 	
 	
+	@SuppressWarnings("unused")
 	private double informationGain(){
-		
+		return (Double) null;
 		
 		
 	}

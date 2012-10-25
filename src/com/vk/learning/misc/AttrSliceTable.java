@@ -26,16 +26,17 @@ public class AttrSliceTable {
 	public void setValToClassTable(List<Pair> valToClassTable) {
 		this.valToClassTable = valToClassTable;
 	}
-	
+
+	/**
+	 * 
+	 */
+
 	public void makeConvolution(){
-		
-		Iterator<Pair> it = valToClassTable.iterator();
-		Pair pair = new Pair();
 		Pair convoPair = new Pair();
 		
-		while(it.hasNext()){			
-			pair = it.next();
-			convoPair = convolution.get()...
+		for(Pair pair: valToClassTable){
+			//convoPair = convolution.get();
+			
 		}
 	}
 
