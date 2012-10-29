@@ -1,17 +1,20 @@
 package com.vk.learning;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.vk.learning.tree.Node;
 
 import redis.clients.jedis.Jedis;
 
+@SuppressWarnings("unused")
 public abstract class DTree implements LearnInterface {
 
 	
-	protected ArrayList<Incident> trainingSet;
-	protected Node rootNode;
+	protected List<Incident> trainingSet;
+	protected Node rootNode = null;
 	
+
 	private String prefix = "dtree";
 	private String redisHost = "localhost";
 	private int redisDb = 0;
@@ -46,11 +49,11 @@ public abstract class DTree implements LearnInterface {
 		return this.trainingSet.size();
 	}
 
-	public void setExamples(ArrayList<Incident> trainingSet) {
+	public void setExamples(List<Incident> trainingSet) {
 		this.trainingSet = trainingSet;
 	}
 	
-	public ArrayList<Incident> getTrainingSet() {
+	public List<Incident> getTrainingSet() {
 		return trainingSet;
 	}
 
@@ -99,7 +102,9 @@ public abstract class DTree implements LearnInterface {
 		
 	protected double log2(double n){		
 		return Math.log(n)/this.log2;		
-	}  
+	} 
+	
+	
 	
 	
 

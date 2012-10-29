@@ -6,9 +6,13 @@ import java.util.Map;
 /*
  * Incident for training set
  */
-public class Incident {
+public class Incident implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Map<String, Serializable> data;
 	private String cName;
 	
